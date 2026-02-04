@@ -1,14 +1,21 @@
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+// Menggunakan jalur relatif standar './App' untuk memastikan kompatibilitas bundler yang paling stabil
+import App from './App'; 
 
-// Registrasi Service Worker untuk PWA
+/**
+ * Registrasi Service Worker untuk Progressive Web App (PWA)
+ * Ini memungkinkan aplikasi dapat diinstal dan bekerja secara offline.
+ */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('SW registered:', reg))
-      .catch(err => console.log('SW registration failed:', err));
+      .then(reg => {
+        console.log('HERNIPRINT SW registered:', reg.scope);
+      })
+      .catch(err => {
+        console.error('HERNIPRINT SW registration failed:', err);
+      });
   });
 }
 
@@ -18,9 +25,10 @@ if (container) {
   const root = createRoot(container);
   root.render(
     <React.StrictMode>
+      {/* Komponen utama aplikasi */}
       <App />
     </React.StrictMode>
   );
 } else {
-  console.error("Failed to find root element");
+  console.error("Critical Error: Failed to find root element.");
 }
